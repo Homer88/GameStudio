@@ -2,7 +2,8 @@
 #include "welcomescreen.h"
 #include "projectselectionscreen.h"
 #include "projectcreator.h"
-#include "language_manager.h"
+#include "settings/settingsdialog.h"
+#include "lang/LanguageManager.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>
@@ -12,6 +13,7 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
+    , m_settingsWindow(nullptr)
 {
     setWindowTitle(LanguageManager::instance().translate("app_title"));
     setMinimumSize(800, 600);
@@ -47,6 +49,13 @@ void MainWindow::setupMenuBar()
     m_menuBar = menuBar();
     
     m_settingsMenu = m_menuBar->addMenu(LanguageManager::instance().translate("settings_menu"));
+    
+    // Add Settings action
+    QAction* settingsAction = new QAction(LanguageManager::instance().translate("settings_action"), this);
+    connect(settingsAction, &QAction::triggered, this, &MainWindow::showSettings);
+    m_settingsMenu->addAction(settingsAction);
+    
+    m_settingsMenu->addSeparator();
     
     createLanguageMenu();
 }
@@ -225,4 +234,13 @@ void MainWindow::createProject(const QString &templateName)
 void MainWindow::goBack()
 {
     showWelcomeScreen();
+}
+
+void MainWindow::showSettings()
+{
+    if (!m_settingsWindow) {
+        m_settingsWindow = new SettingsWindow(this);
+    }
+    
+    m_settingsWindow->exec();
 }

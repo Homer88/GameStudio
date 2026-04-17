@@ -12,6 +12,7 @@
 class WelcomeScreen;
 class ProjectSelectionScreen;
 class ProjectCreator;
+class SettingsWindow;
 
 class MainWindow : public QMainWindow
 {
@@ -30,6 +31,7 @@ private slots:
     void createProject(const QString &templateName);
     void goBack();
     void changeLanguage();
+    void showSettings();
 
 private:
     void setupUI();
@@ -41,6 +43,7 @@ private:
     WelcomeScreen *m_welcomeScreen;
     ProjectSelectionScreen *m_projectSelectionScreen;
     ProjectCreator *m_projectCreator;
+    SettingsWindow *m_settingsWindow;
     
     // Menu bar
     QMenuBar *m_menuBar;

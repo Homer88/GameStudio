@@ -7,8 +7,8 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Xml)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Xml)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Xml SerialPort)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Xml SerialPort)
 
 set(PROJECT_SOURCES
     src/main.cpp
@@ -17,6 +17,7 @@ set(PROJECT_SOURCES
     src/projectselectionscreen.cpp
     src/projectcreator.cpp
     src/language_manager.cpp
+    src/settings/settingsdialog.cpp
 )
 
 set(PROJECT_HEADERS
@@ -25,6 +26,11 @@ set(PROJECT_HEADERS
     src/projectselectionscreen.h
     src/projectcreator.h
     src/language_manager.h
+    src/settings/settingsdialog.h
+)
+
+set(PROJECT_UI
+    src/settings/settingsdialog.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -32,15 +38,17 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         ${PROJECT_HEADERS}
+        ${PROJECT_UI}
     )
 else()
     add_executable(QtProjectManager
         ${PROJECT_SOURCES}
         ${PROJECT_HEADERS}
+        ${PROJECT_UI}
     )
 endif()
 
-target_link_libraries(QtProjectManager PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Xml)
+target_link_libraries(QtProjectManager PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Xml Qt${QT_VERSION_MAJOR}::SerialPort)
 
 set_target_properties(QtProjectManager PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
