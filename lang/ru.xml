@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language>
+    <name>Русский</name>
+    <code>ru</code>
+    <translations>
+        <message name="app_title">Менеджер Проектов</message>
+        <message name="welcome_title">Добро пожаловать в Менеджер Проектов</message>
+        <message name="welcome_subtitle">Создавайте и управляйте своими проектами легко</message>
+        <message name="start_button">Начать работу</message>
+        <message name="select_project_title">Выберите проект</message>
+        <message name="project_list_label">Доступные проекты:</message>
+        <message name="create_project_button">Создать новый проект</message>
+        <message name="open_project_button">Открыть выбранный</message>
+        <message name="create_project_title">Создать новый проект</message>
+        <message name="project_name_label">Название проекта:</message>
+        <message name="project_location_label">Расположение:</message>
+        <message name="browse_button">Обзор</message>
+        <message name="create_button">Создать</message>
+        <message name="cancel_button">Отмена</message>
+        <message name="project_created">Проект успешно создан!</message>
+        <message name="error_project_exists">Проект с таким именем уже существует.</message>
+        <message name="error_invalid_name">Некорректное имя проекта.</message>
+        <message name="settings_menu">Настройки</message>
+        <message name="language_menu">Язык</message>
+    </translations>
+</language>

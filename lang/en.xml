@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language>
+    <name>English</name>
+    <code>en</code>
+    <translations>
+        <message name="app_title">Project Manager</message>
+        <message name="welcome_title">Welcome to Project Manager</message>
+        <message name="welcome_subtitle">Create and manage your projects easily</message>
+        <message name="start_button">Get Started</message>
+        <message name="select_project_title">Select Project</message>
+        <message name="project_list_label">Available Projects:</message>
+        <message name="create_project_button">Create New Project</message>
+        <message name="open_project_button">Open Selected</message>
+        <message name="create_project_title">Create New Project</message>
+        <message name="project_name_label">Project Name:</message>
+        <message name="project_location_label">Location:</message>
+        <message name="browse_button">Browse</message>
+        <message name="create_button">Create</message>
+        <message name="cancel_button">Cancel</message>
+        <message name="project_created">Project created successfully!</message>
+        <message name="error_project_exists">A project with this name already exists.</message>
+        <message name="error_invalid_name">Invalid project name.</message>
+        <message name="settings_menu">Settings</message>
+        <message name="language_menu">Language</message>
+    </translations>
+</language>

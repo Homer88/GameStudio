@@ -1,9 +1,21 @@
 #include "projectselectionscreen.h"
+#include "language_manager.h"
 
 ProjectSelectionScreen::ProjectSelectionScreen(QWidget *parent)
     : QWidget(parent)
 {
     setupUI();
+    updateLanguage();
+}
+
+void ProjectSelectionScreen::updateLanguage()
+{
+    LanguageManager& langMgr = LanguageManager::instance();
+    
+    m_titleLabel->setText(langMgr.translate("select_project_title"));
+    m_projectListLabel->setText(langMgr.translate("project_list_label"));
+    m_createButton->setText(langMgr.translate("create_project_button"));
+    m_backButton->setText(langMgr.translate("cancel_button"));
 }
 
 void ProjectSelectionScreen::setupUI()
@@ -13,29 +25,33 @@ void ProjectSelectionScreen::setupUI()
     m_mainLayout->setContentsMargins(30, 30, 30, 30);
 
     // Title Label
-    m_titleLabel = new QLabel("Выберите тип проекта", this);
+    m_titleLabel = new QLabel("", this);
     m_titleLabel->setAlignment(Qt::AlignCenter);
     QFont titleFont = m_titleLabel->font();
     titleFont.setPointSize(18);
     titleFont.setBold(true);
     m_titleLabel->setFont(titleFont);
 
+    // Project List Label
+    m_projectListLabel = new QLabel("", this);
+    
     // Project List
     m_projectList = new QListWidget(this);
     m_projectList->setMinimumHeight(200);
     m_projectList->setSelectionMode(QAbstractItemView::SingleSelection);
 
     // Create Button
-    m_createButton = new QPushButton("Создать проект", this);
+    m_createButton = new QPushButton("", this);
     m_createButton->setMinimumSize(180, 45);
     m_createButton->setEnabled(false);
 
     // Back Button
-    m_backButton = new QPushButton("Назад", this);
+    m_backButton = new QPushButton("", this);
     m_backButton->setMinimumSize(180, 45);
 
     // Add widgets to layout
     m_mainLayout->addWidget(m_titleLabel);
+    m_mainLayout->addWidget(m_projectListLabel);
     m_mainLayout->addWidget(m_projectList);
     
     QHBoxLayout *buttonLayout = new QHBoxLayout();

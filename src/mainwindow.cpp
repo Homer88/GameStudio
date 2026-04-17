@@ -2,27 +2,98 @@
 #include "welcomescreen.h"
 #include "projectselectionscreen.h"
 #include "projectcreator.h"
+#include "language_manager.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QMessageBox>
 #include <QGroupBox>
+#include <QDialog>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
-    setWindowTitle("Qt Project Manager");
+    setWindowTitle(LanguageManager::instance().translate("app_title"));
     setMinimumSize(800, 600);
     
     m_projectCreator = new ProjectCreator(this);
     setupProjectTemplates();
+    setupMenuBar();
     setupUI();
     
+    updateLanguage();
     showWelcomeScreen();
 }
 
 MainWindow::~MainWindow()
 {
+}
+
+void MainWindow::updateLanguage()
+{
+    setWindowTitle(LanguageManager::instance().translate("app_title"));
+    
+    if (m_welcomeScreen) {
+        m_welcomeScreen->updateLanguage();
+    }
+    
+    if (m_projectSelectionScreen) {
+        m_projectSelectionScreen->updateLanguage();
+    }
+}
+
+void MainWindow::setupMenuBar()
+{
+    m_menuBar = menuBar();
+    
+    m_settingsMenu = m_menuBar->addMenu(LanguageManager::instance().translate("settings_menu"));
+    
+    createLanguageMenu();
+}
+
+void MainWindow::createLanguageMenu()
+{
+    m_languageMenu = m_settingsMenu->addMenu(LanguageManager::instance().translate("language_menu"));
+    
+    m_languageActionGroup = new QActionGroup(this);
+    m_languageActionGroup->setExclusive(true);
+    
+    LanguageManager& langMgr = LanguageManager::instance();
+    QStringList languages = langMgr.getAvailableLanguages();
+    
+    for (const QString& langCode : languages) {
+        QString langName = langMgr.getLanguageName(langCode);
+        QAction* action = new QAction(langName, this);
+        action->setCheckable(true);
+        action->setData(langCode);
+        
+        if (langCode == langMgr.getCurrentLanguage()) {
+            action->setChecked(true);
+        }
+        
+        m_languageActionGroup->addAction(action);
+        m_languageMenu->addAction(action);
+        
+        connect(action, &QAction::triggered, this, [this, langCode]() {
+            changeLanguage();
+        });
+    }
+}
+
+void MainWindow::changeLanguage()
+{
+    QAction* action = qobject_cast<QAction*>(sender());
+    if (!action) return;
+    
+    QString langCode = action->data().toString();
+    LanguageManager& langMgr = LanguageManager::instance();
+    
+    if (langMgr.setLanguage(langCode)) {
+        updateLanguage();
+        
+        m_languageMenu->clear();
+        createLanguageMenu();
+    }
 }
 
 void MainWindow::setupProjectTemplates()

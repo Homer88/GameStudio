@@ -14,6 +14,8 @@ public:
     explicit WelcomeScreen(QWidget *parent = nullptr);
     ~WelcomeScreen() = default;
 
+    void updateLanguage();
+
 signals:
     void startButtonClicked();
 

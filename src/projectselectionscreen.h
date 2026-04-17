@@ -17,6 +17,7 @@ public:
 
     void setProjectTemplates(const QStringList &templates);
     QString selectedTemplate() const;
+    void updateLanguage();
 
 signals:
     void createProjectClicked(const QString &templateName);
@@ -27,6 +28,7 @@ private:
     
     QVBoxLayout *m_mainLayout;
     QLabel *m_titleLabel;
+    QLabel *m_projectListLabel;
     QListWidget *m_projectList;
     QPushButton *m_createButton;
     QPushButton *m_backButton;

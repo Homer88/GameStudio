@@ -7,8 +7,8 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Xml)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Xml)
 
 set(PROJECT_SOURCES
     src/main.cpp
@@ -16,6 +16,7 @@ set(PROJECT_SOURCES
     src/welcomescreen.cpp
     src/projectselectionscreen.cpp
     src/projectcreator.cpp
+    src/language_manager.cpp
 )
 
 set(PROJECT_HEADERS
@@ -23,6 +24,7 @@ set(PROJECT_HEADERS
     src/welcomescreen.h
     src/projectselectionscreen.h
     src/projectcreator.h
+    src/language_manager.h
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -38,7 +40,7 @@ else()
     )
 endif()
 
-target_link_libraries(QtProjectManager PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(QtProjectManager PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Xml)
 
 set_target_properties(QtProjectManager PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
