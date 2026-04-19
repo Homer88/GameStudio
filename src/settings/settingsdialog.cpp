@@ -222,13 +222,6 @@ void SettingsWindow::onSaveClicked()
 {
     saveSettings();
     
-    // Apply language change if needed
-    if (m_currentLanguage != "auto") {
-        m_languageManager->loadLanguage(m_currentLanguage);
-    } else {
-        m_languageManager->loadLanguage(m_languageManager->detectSystemLanguage());
-    }
-    
     QMessageBox::information(this, tr("Settings Saved"), 
                             tr("Settings have been saved successfully.\nSome changes may require restart."));
     accept();

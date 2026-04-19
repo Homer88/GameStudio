@@ -400,6 +400,18 @@ void MainWindow::showSettings()
     applyEditorSettings();
 }
 
+void MainWindow::applyEditorSettings()
+{
+    if (m_codeEditor && m_settingsWindow) {
+        m_codeEditor->updateEditorSettings(
+            m_settingsWindow->fontFamily(),
+            m_settingsWindow->fontSize(),
+            m_settingsWindow->textColor(),
+            m_settingsWindow->highlightColor()
+        );
+    }
+}
+
 void MainWindow::newFile()
 {
     // Switch to editor view
@@ -479,20 +491,4 @@ void MainWindow::showAbout()
                           "<p>Version 1.0.0</p>"
                           "<p>A cross-platform code editor built with C++ and Qt.</p>"
                           "<p>&copy; 2024 MyCompany</p>"));
-}
-
-void MainWindow::applyEditorSettings()
-{
-    if (!m_codeEditor) return;
-    
-    // Load settings from config file
-    QSettings config("conf/configure.xml", QSettings::IniFormat);
-    config.setIniCodec("UTF-8");
-    
-    QString fontFamily = config.value("Editor/FontFamily", "Consolas").toString();
-    int fontSize = config.value("Editor/FontSize", 12).toInt();
-    QColor textColor = config.value("Editor/TextColor", QColor(Qt::black)).value<QColor>();
-    QColor highlightColor = config.value("Editor/HighlightColor", QColor(255, 255, 225)).value<QColor>();
-    
-    m_codeEditor->updateEditorSettings(fontFamily, fontSize, textColor, highlightColor);
 }

@@ -7,6 +7,9 @@
 #include <QTimer>
 #include <QTextBlock>
 #include <QTextStream>
+#include <QSyntaxHighlighter>
+#include <QRegularExpression>
+#include <QTextCharFormat>
 
 class QPaintEvent;
 class QResizeEvent;
@@ -15,7 +18,7 @@ class QWidget;
 class QScrollBar;
 
 class LineNumberArea;
-class SyntaxHighlighter;
+class CodeEditorHighlighter;
 
 class CodeEditor : public QPlainTextEdit
 {
@@ -25,8 +28,8 @@ public:
     explicit CodeEditor(QWidget *parent = nullptr);
     ~CodeEditor();
 
-    void setSyntaxHighlighter(SyntaxHighlighter *highlighter);
-    SyntaxHighlighter* syntaxHighlighter() const;
+    void setSyntaxHighlighter(CodeEditorHighlighter *highlighter);
+    CodeEditorHighlighter* syntaxHighlighter() const;
 
     void loadFile(const QString &fileName);
     bool saveFile(const QString &fileName);
@@ -60,7 +63,7 @@ private:
     void updateColors(const QColor &textColor, const QColor &highlightColor);
 
     LineNumberArea *m_lineNumberArea;
-    SyntaxHighlighter *m_syntaxHighlighter;
+    CodeEditorHighlighter *m_syntaxHighlighter;
     QString m_currentFilePath;
     bool m_modified;
 };
@@ -81,31 +84,29 @@ private:
 };
 
 
-class SyntaxHighlighter : public QObject
+class CodeEditorHighlighter : public QSyntaxHighlighter
 {
     Q_OBJECT
 
 public:
-    explicit SyntaxHighlighter(CodeEditor *editor);
+    explicit CodeEditorHighlighter(QTextDocument *parent = nullptr);
     
-    void setColors(const QColor &textColor, const QColor &highlightColor,
-                   const QColor &keywordColor, const QColor &stringColor,
-                   const QColor &commentColor, const QColor &typeColor);
+    void setColors(const QColor &keywordColor, const QColor &typeColor,
+                   const QColor &stringColor, const QColor &commentColor,
+                   const QColor &numberColor);
     
-    void rehighlight();
-
 protected:
-    bool eventFilter(QObject *watched, QEvent *event) override;
+    void highlightBlock(const QString &text) override;
 
 private:
     struct HighlightingRule {
-        QRegExp pattern;
+        QRegularExpression pattern;
         QTextCharFormat format;
     };
     
     QVector<HighlightingRule> m_highlightingRules;
-    QRegExp m_commentStartExpression;
-    QRegExp m_commentEndExpression;
+    QRegularExpression m_commentStartExpression;
+    QRegularExpression m_commentEndExpression;
     
     QTextCharFormat m_keywordFormat;
     QTextCharFormat m_typeFormat;
@@ -113,10 +114,7 @@ private:
     QTextCharFormat m_commentFormat;
     QTextCharFormat m_numberFormat;
     
-    CodeEditor *m_editor;
-    
     void setupCppRules();
-    void applyHighlighting();
 };
 
 #endif // CODEEDITOR_H

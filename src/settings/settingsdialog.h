@@ -15,6 +15,12 @@ public:
     explicit SettingsWindow(QWidget *parent = nullptr);
     ~SettingsWindow();
 
+    // Getters for editor settings
+    QString fontFamily() const { return m_fontFamily; }
+    int fontSize() const { return m_fontSize; }
+    QColor textColor() const { return m_textColor; }
+    QColor highlightColor() const { return m_highlightColor; }
+
 private slots:
     void onLanguageChanged(const QString &language);
     void onFontChanged();
@@ -34,7 +40,6 @@ private:
     void populateLanguages();
 
     Ui::SettingsWindow *ui;
-    LanguageManager *m_languageManager;
     QTranslator *m_translator;
     
     // Temporary settings storage

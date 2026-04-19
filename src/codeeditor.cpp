@@ -32,11 +32,11 @@ void LineNumberArea::paintEvent(QPaintEvent *event)
 
 
 // ============================================================================
-// SyntaxHighlighter Implementation
+// CodeEditorHighlighter Implementation
 // ============================================================================
 
-SyntaxHighlighter::SyntaxHighlighter(CodeEditor *editor)
-    : QObject(editor), m_editor(editor)
+CodeEditorHighlighter::CodeEditorHighlighter(QTextDocument *parent)
+    : QSyntaxHighlighter(parent)
 {
     // Setup default colors
     m_keywordFormat.setForeground(QColor(0, 0, 170)); // Dark blue
@@ -53,22 +53,22 @@ SyntaxHighlighter::SyntaxHighlighter(CodeEditor *editor)
     m_numberFormat.setForeground(QColor(170, 0, 170)); // Purple
     
     setupCppRules();
-    m_editor->installEventFilter(this);
 }
 
-void SyntaxHighlighter::setColors(const QColor &textColor, const QColor &highlightColor,
-                                   const QColor &keywordColor, const QColor &stringColor,
-                                   const QColor &commentColor, const QColor &typeColor)
+void CodeEditorHighlighter::setColors(const QColor &keywordColor, const QColor &typeColor,
+                                       const QColor &stringColor, const QColor &commentColor,
+                                       const QColor &numberColor)
 {
     m_keywordFormat.setForeground(keywordColor);
+    m_typeFormat.setForeground(typeColor);
     m_stringFormat.setForeground(stringColor);
     m_commentFormat.setForeground(commentColor);
-    m_typeFormat.setForeground(typeColor);
+    m_numberFormat.setForeground(numberColor);
     
-    applyHighlighting();
+    rehighlight();
 }
 
-void SyntaxHighlighter::setupCppRules()
+void CodeEditorHighlighter::setupCppRules()
 {
     HighlightingRule rule;
     
@@ -89,7 +89,7 @@ void SyntaxHighlighter::setupCppRules()
     };
     
     for (const QString &pattern : keywordPatterns) {
-        rule.pattern = QRegExp(pattern);
+        rule.pattern = QRegularExpression(pattern);
         rule.format = m_keywordFormat;
         m_highlightingRules.append(rule);
     }
@@ -105,62 +105,68 @@ void SyntaxHighlighter::setupCppRules()
     };
     
     for (const QString &pattern : typePatterns) {
-        rule.pattern = QRegExp(pattern);
+        rule.pattern = QRegularExpression(pattern);
         rule.format = m_typeFormat;
         m_highlightingRules.append(rule);
     }
     
     // Numbers
-    rule.pattern = QRegExp("\\b[0-9]+\\.?[0-9]*([eE][+-]?[0-9]+)?[fFlLuU]*\\b");
+    rule.pattern = QRegularExpression("\\b[0-9]+\\.?[0-9]*([eE][+-]?[0-9]+)?[fFlLuU]*\\b");
     rule.format = m_numberFormat;
     m_highlightingRules.append(rule);
     
     // Strings (double quotes)
-    rule.pattern = QRegExp("\"[^\"\\\\]*(\\\\.[^\"\\\\]*)*\"");
+    rule.pattern = QRegularExpression("\"[^\"\\\\]*(\\\\.[^\"\\\\]*)*\"");
     rule.format = m_stringFormat;
     m_highlightingRules.append(rule);
     
     // Strings (single quotes - characters)
-    rule.pattern = QRegExp("'[^'\\\\]*(\\\\.[^'\\\\]*)*'");
+    rule.pattern = QRegularExpression("'[^'\\\\]*(\\\\.[^'\\\\]*)*'");
     rule.format = m_stringFormat;
     m_highlightingRules.append(rule);
     
     // Single-line comments
-    rule.pattern = QRegExp("//[^\n]*");
+    rule.pattern = QRegularExpression("//[^\n]*");
     rule.format = m_commentFormat;
     m_highlightingRules.append(rule);
     
     // Multi-line comments
-    m_commentStartExpression = QRegExp("/\\*");
-    m_commentEndExpression = QRegExp("\\*/");
+    m_commentStartExpression = QRegularExpression("/\\*");
+    m_commentEndExpression = QRegularExpression("\\*/");
 }
 
-void SyntaxHighlighter::rehighlight()
+void CodeEditorHighlighter::highlightBlock(const QString &text)
 {
-    applyHighlighting();
-}
-
-bool SyntaxHighlighter::eventFilter(QObject *watched, QEvent *event)
-{
-    if (watched == m_editor && event->type() == QEvent::KeyPress) {
-        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-        if (keyEvent->key() == Qt::Key_Tab) {
-            QTextCursor cursor = m_editor->textCursor();
-            if (!cursor.hasSelection()) {
-                cursor.insertText("    ");
-                return true;
-            }
+    for (const HighlightingRule &rule : qAsConst(m_highlightingRules)) {
+        QRegularExpressionMatchIterator matchIterator = rule.pattern.globalMatch(text);
+        while (matchIterator.hasNext()) {
+            QRegularExpressionMatch match = matchIterator.next();
+            setFormat(match.capturedStart(), match.capturedLength(), rule.format);
         }
     }
-    return QObject::eventFilter(watched, event);
-}
-
-void SyntaxHighlighter::applyHighlighting()
-{
-    // This is a simplified approach - in a real implementation,
-    // you would use QSyntaxHighlighter properly
-    // For now, we'll just trigger a repaint
-    m_editor->viewport()->update();
+    
+    setCurrentBlockState(0);
+    
+    int startIndex = 0;
+    if (previousBlockState() != 1) {
+        startIndex = text.indexOf(m_commentStartExpression);
+    }
+    
+    while (startIndex >= 0) {
+        QRegularExpressionMatch match = m_commentEndExpression.match(text, startIndex);
+        int endIndex = match.capturedStart();
+        int commentLength = 0;
+        
+        if (endIndex == -1) {
+            setCurrentBlockState(1);
+            commentLength = text.length() - startIndex;
+        } else {
+            commentLength = endIndex - startIndex + match.capturedLength();
+        }
+        
+        setFormat(startIndex, commentLength, m_commentFormat);
+        startIndex = text.indexOf(m_commentStartExpression, startIndex + commentLength);
+    }
 }
 
 
@@ -195,14 +201,14 @@ CodeEditor::CodeEditor(QWidget *parent)
     setFont(font);
     
     // Create syntax highlighter
-    m_syntaxHighlighter = new SyntaxHighlighter(this);
+    m_syntaxHighlighter = new CodeEditorHighlighter(document());
 }
 
 CodeEditor::~CodeEditor()
 {
 }
 
-void CodeEditor::setSyntaxHighlighter(SyntaxHighlighter *highlighter)
+void CodeEditor::setSyntaxHighlighter(CodeEditorHighlighter *highlighter)
 {
     if (m_syntaxHighlighter) {
         delete m_syntaxHighlighter;
@@ -210,7 +216,7 @@ void CodeEditor::setSyntaxHighlighter(SyntaxHighlighter *highlighter)
     m_syntaxHighlighter = highlighter;
 }
 
-SyntaxHighlighter* CodeEditor::syntaxHighlighter() const
+CodeEditorHighlighter* CodeEditor::syntaxHighlighter() const
 {
     return m_syntaxHighlighter;
 }
