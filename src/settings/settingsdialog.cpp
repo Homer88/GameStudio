@@ -10,7 +10,6 @@
 SettingsWindow::SettingsWindow(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::SettingsWindow)
-    , m_languageManager(LanguageManager::instance())
     , m_translator(new QTranslator(this))
 {
     ui->setupUi(this);
@@ -222,13 +221,6 @@ void SettingsWindow::onModulePathChanged()
 void SettingsWindow::onSaveClicked()
 {
     saveSettings();
-    
-    // Apply language change if needed
-    if (m_currentLanguage != "auto") {
-        m_languageManager->loadLanguage(m_currentLanguage);
-    } else {
-        m_languageManager->loadLanguage(m_languageManager->detectSystemLanguage());
-    }
     
     QMessageBox::information(this, tr("Settings Saved"), 
                             tr("Settings have been saved successfully.\nSome changes may require restart."));

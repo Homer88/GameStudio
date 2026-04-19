@@ -10,6 +10,10 @@ set(CMAKE_AUTOUIC ON)
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Xml SerialPort)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Xml SerialPort)
 
+# Include directories
+include_directories(${CMAKE_SOURCE_DIR}/src)
+include_directories(${CMAKE_SOURCE_DIR}/src/settings)
+
 set(PROJECT_SOURCES
     src/main.cpp
     src/mainwindow.cpp
@@ -18,6 +22,7 @@ set(PROJECT_SOURCES
     src/projectcreator.cpp
     src/language_manager.cpp
     src/settings/settingsdialog.cpp
+    src/codeeditor.cpp
 )
 
 set(PROJECT_HEADERS
@@ -27,6 +32,7 @@ set(PROJECT_HEADERS
     src/projectcreator.h
     src/language_manager.h
     src/settings/settingsdialog.h
+    src/codeeditor.h
 )
 
 set(PROJECT_UI
