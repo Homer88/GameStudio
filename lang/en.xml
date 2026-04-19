@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<language>
+    <name>English</name>
+    <code>en</code>
+    <translations>
+        <message name="app_title">Project Manager</message>
+        <message name="welcome_title">Welcome to Project Manager</message>
+        <message name="welcome_subtitle">Create and manage your projects easily</message>
+        <message name="start_button">Get Started</message>
+        <message name="select_project_title">Select Project</message>
+        <message name="project_list_label">Available Projects:</message>
+        <message name="create_project_button">Create New Project</message>
+        <message name="open_project_button">Open Selected</message>
+        <message name="create_project_title">Create New Project</message>
+        <message name="project_name_label">Project Name:</message>
+        <message name="project_location_label">Location:</message>
+        <message name="browse_button">Browse</message>
+        <message name="create_button">Create</message>
+        <message name="cancel_button">Cancel</message>
+        <message name="project_created">Project created successfully!</message>
+        <message name="error_project_exists">A project with this name already exists.</message>
+        <message name="error_invalid_name">Invalid project name.</message>
+        <message name="settings_menu">Settings</message>
+        <message name="settings_action">Settings...</message>
+        <message name="language_menu">Language</message>
+        <message name="settings_title">Settings</message>
+        <message name="settings_general_tab">General</message>
+        <message name="settings_editor_tab">Editor</message>
+        <message name="settings_hardware_tab">Hardware</message>
+        <message name="settings_packages_tab">Packages</message>
+        <message name="settings_paths_tab">Paths</message>
+        <message name="settings_language_label">Language:</message>
+        <message name="settings_font_label">Font:</message>
+        <message name="settings_change_button">Change...</message>
+        <message name="settings_text_color_label">Text Color:</message>
+        <message name="settings_highlight_color_label">Highlight Color:</message>
+        <message name="settings_com_port_label">COM Port:</message>
+        <message name="settings_baud_rate_label">Baud Rate:</message>
+        <message name="settings_package_dir_label">Package Directory:</message>
+        <message name="settings_module_dir_label">Module Directory:</message>
+        <message name="settings_save_button">Save</message>
+        <message name="settings_cancel_button">Cancel</message>
+        <message name="settings_saved">Settings have been saved successfully.\nSome changes may require restart.</message>
+        <message name="select_font_dialog">Select Font</message>
+        <message name="select_text_color_dialog">Select Text Color</message>
+        <message name="select_highlight_color_dialog">Select Highlight Color</message>
+        <message name="select_package_directory">Select Package Directory</message>
+        <message name="select_module_directory">Select Module Directory</message>
+    </translations>
+</language>

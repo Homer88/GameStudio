@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SettingsWindow</class>
+ <widget class="QDialog" name="SettingsWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>500</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Settings</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="generalTab">
+      <attribute name="title">
+       <string>General</string>
+      </attribute>
+      <layout class="QFormLayout" name="generalLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="languageLabel">
+         <property name="text">
+          <string>Language:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QComboBox" name="languageComboBox"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="editorTab">
+      <attribute name="title">
+       <string>Editor</string>
+      </attribute>
+      <layout class="QFormLayout" name="editorLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="fontLabel_title">
+         <property name="text">
+          <string>Font:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <layout class="QHBoxLayout" name="fontLayout">
+         <item>
+          <widget class="QLabel" name="fontLabel">
+           <property name="text">
+            <string>Consolas, 12</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="fontPushButton">
+           <property name="text">
+            <string>Change...</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="textColorLabel">
+         <property name="text">
+          <string>Text Color:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="textColorPushButton">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="highlightColorLabel">
+         <property name="text">
+          <string>Highlight Color:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QPushButton" name="highlightColorPushButton">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="hardwareTab">
+      <attribute name="title">
+       <string>Hardware</string>
+      </attribute>
+      <layout class="QFormLayout" name="hardwareLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="comPortLabel">
+         <property name="text">
+          <string>COM Port:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QComboBox" name="comPortComboBox"/>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="baudRateLabel">
+         <property name="text">
+          <string>Baud Rate:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QComboBox" name="baudRateComboBox">
+         <item>
+          <property name="text">
+           <string>9600</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>19200</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>38400</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>57600</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>115200</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="packagesTab">
+      <attribute name="title">
+       <string>Packages</string>
+      </attribute>
+      <layout class="QFormLayout" name="packagesLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="packagePathLabel">
+         <property name="text">
+          <string>Package Directory:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <layout class="QHBoxLayout" name="packagePathLayout">
+         <item>
+          <widget class="QLineEdit" name="packagePathLineEdit"/>
+         </item>
+         <item>
+          <widget class="QPushButton" name="packagePathPushButton">
+           <property name="text">
+            <string>Browse...</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="pathsTab">
+      <attribute name="title">
+       <string>Paths</string>
+      </attribute>
+      <layout class="QFormLayout" name="pathsLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="modulePathLabel">
+         <property name="text">
+          <string>Module Directory:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <layout class="QHBoxLayout" name="modulePathLayout">
+         <item>
+          <widget class="QLineEdit" name="modulePathLineEdit"/>
+         </item>
+         <item>
+          <widget class="QPushButton" name="modulePathPushButton">
+           <property name="text">
+            <string>Browse...</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="buttonLayout">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="saveButton">
+       <property name="text">
+        <string>Save</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="cancelButton">
+       <property name="text">
+        <string>Cancel</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
