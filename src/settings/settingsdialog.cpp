@@ -10,7 +10,6 @@
 SettingsWindow::SettingsWindow(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::SettingsWindow)
-    , m_languageManager(LanguageManager::instance())
     , m_translator(new QTranslator(this))
 {
     ui->setupUi(this);

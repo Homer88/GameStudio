@@ -2,28 +2,34 @@
 # Build artifacts
 *.o
 *.obj
-*.a
-*.lib
-*.so
-*.dll
 *.exe
+*.dll
+*.so
+*.a
 *.out
 
 # CMake build directory
 build/
 
 # Dependencies
-vendor/
+venv/
+.venv/
+__pycache__/
+*.egg-info/
+node_modules/
 
-# Logs
-*.log
-
-# Temporary files
-*.tmp
+# IDE files
+.vscode/
+.idea/
 *.swp
 *.swo
 
-# OS specific
+# Logs and temp files
+*.log
+*.tmp
+*.bak
+
+# System files
 .DS_Store
 Thumbs.db
 

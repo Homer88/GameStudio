@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include <QTranslator>
-#include "lang/LanguageManager.h"
+#include "language_manager.h"
 
 namespace Ui { class SettingsWindow; }
 
