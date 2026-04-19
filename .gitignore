@@ -1,1 +1,14 @@
-Nothing needs to be added to .gitignore since the changes only include source code files (.cpp and .h) which should not be ignored.
+```
+# Build artifacts
+build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Qt specific
+*_autogen/
+
+# Logs
+*.log
+```
