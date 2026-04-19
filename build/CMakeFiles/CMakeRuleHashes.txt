@@ -1,0 +1,2 @@
+# Hashes of file build rules.
+99c1a53ccd7859f11e628fb8f1e89c97 CMakeFiles/QtProjectManager_autogen

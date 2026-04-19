@@ -8,6 +8,11 @@
 #include <QMenuBar>
 #include <QMenu>
 #include <QAction>
+#include <QTreeView>
+#include <QFileSystemModel>
+#include <QSplitter>
+#include <QTextEdit>
+#include <QPlainTextEdit>
 
 class WelcomeScreen;
 class ProjectSelectionScreen;
@@ -25,7 +30,7 @@ public:
 
 public slots:
     void updateLanguage();
-
+    
 private slots:
     void showWelcomeScreen();
     void showProjectSelectionScreen();
@@ -42,7 +47,11 @@ private slots:
     void closeFile();
     void showAbout();
     void applyEditorSettings();
-
+    
+    // File tree actions
+    void onFileClicked(const QModelIndex &index);
+    void openCurrentFile();
+    
 private:
     void setupUI();
     void setupProjectTemplates();
@@ -50,13 +59,30 @@ private:
     void createLanguageMenu();
     void createEditorMenu();
     void setupCodeEditor();
+    void setupFileTree();
+    void setupTerminalPanel();
+    void createCentralWidget();
     
+    QWidget *m_centralWidget;
     QStackedWidget *m_stackedWidget;
     WelcomeScreen *m_welcomeScreen;
     ProjectSelectionScreen *m_projectSelectionScreen;
     ProjectCreator *m_projectCreator;
     SettingsWindow *m_settingsWindow;
     CodeEditor *m_codeEditor;
+    
+    // File tree
+    QSplitter *m_mainSplitter;
+    QSplitter *m_verticalSplitter;
+    QWidget *m_editorContainer;
+    QTreeView *m_fileTree;
+    QFileSystemModel *m_fileSystemModel;
+    
+    // Terminal panel
+    QWidget *m_terminalPanel;
+    QTabWidget *m_terminalTabWidget;
+    QTextEdit *m_terminalOutput;
+    QTextEdit *m_errorsOutput;
     
     // Menu bar
     QMenuBar *m_menuBar;
@@ -85,6 +111,8 @@ private:
     // View menu actions
     QAction *m_zoomInAction;
     QAction *m_zoomOutAction;
+    QAction *m_showFileTreeAction;
+    QAction *m_showTerminalAction;
     
     // Settings menu actions
     QAction *m_settingsAction;
@@ -97,6 +125,7 @@ private:
     QPushButton *m_cancelButton;
     
     QStringList m_projectTemplates;
+    QString m_currentProjectPath;
 };
 
 #endif // MAINWINDOW_H
