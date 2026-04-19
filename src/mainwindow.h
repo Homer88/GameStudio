@@ -19,6 +19,8 @@ class ProjectSelectionScreen;
 class ProjectCreator;
 class SettingsWindow;
 class CodeEditor;
+class PackageManager;
+class PackageDialog;
 
 class MainWindow : public QMainWindow
 {
@@ -38,6 +40,7 @@ private slots:
     void goBack();
     void changeLanguage();
     void showSettings();
+    void showPackageManager();
     
     // Editor actions
     void newFile();
@@ -62,6 +65,7 @@ private:
     void setupFileTree();
     void setupTerminalPanel();
     void createCentralWidget();
+    void setupPackageManager();
     
     QWidget *m_centralWidget;
     QStackedWidget *m_stackedWidget;
@@ -70,6 +74,8 @@ private:
     ProjectCreator *m_projectCreator;
     SettingsWindow *m_settingsWindow;
     CodeEditor *m_codeEditor;
+    PackageManager *m_packageManager;
+    PackageDialog *m_packageDialog;
     
     // File tree
     QSplitter *m_mainSplitter;
@@ -116,6 +122,8 @@ private:
     
     // Settings menu actions
     QAction *m_settingsAction;
+    QAction *m_installPackageAction;
+    QAction *m_uninstallPackageAction;
     
     // Project creation dialog widgets
     QLineEdit *m_projectNameEdit;

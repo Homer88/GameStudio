@@ -13,6 +13,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Xml SerialPort)
 # Include directories
 include_directories(${CMAKE_SOURCE_DIR}/src)
 include_directories(${CMAKE_SOURCE_DIR}/src/settings)
+include_directories(${CMAKE_SOURCE_DIR}/src/core)
 
 set(PROJECT_SOURCES
     src/main.cpp
@@ -23,6 +24,9 @@ set(PROJECT_SOURCES
     src/language_manager.cpp
     src/settings/settingsdialog.cpp
     src/codeeditor.cpp
+    src/core/packageparser.cpp
+    src/core/packagemanager.cpp
+    src/core/packagedialog.cpp
 )
 
 set(PROJECT_HEADERS
@@ -33,6 +37,9 @@ set(PROJECT_HEADERS
     src/language_manager.h
     src/settings/settingsdialog.h
     src/codeeditor.h
+    src/core/packageparser.h
+    src/core/packagemanager.h
+    src/core/packagedialog.h
 )
 
 set(PROJECT_UI
