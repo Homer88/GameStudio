@@ -1,34 +1,51 @@
 ```
-# Build artifacts
-build/
+# Compiled and build artifacts
 *.o
 *.obj
-*.exe
-*.dll
-*.so
 *.a
+*.lib
+*.so
+*.dll
+*.exe
 *.out
+*.pyc
+__pycache__/
 
-# Scripts and temporary files
-*.tmp
-*.log
-
-# Environment
+# Dependencies
+node_modules/
+venv/
+.venv/
 .env
 .env.local
 *.env.*
 
-# Editors
+# Build directories (common for C++/Qt projects)
+build/
+dist/
+target/
+cmake-build-*/
+
+# Editors/IDE
 .vscode/
 .idea/
 *.swp
 *.swo
+*.tmp
 
-# Coverage and testing
-.coverage
+# System files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Coverage
 coverage/
 htmlcov/
+.coverage
 
-# CMake specific
-CMakeCache.txt
+# Qt specific
+*.pro.user
+*.qbs.user
+*.qmlc
 ```

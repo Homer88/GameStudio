@@ -5,6 +5,8 @@
 #include "settings/settingsdialog.h"
 #include "codeeditor.h"
 #include "language_manager.h"
+#include "core/packagemanager.h"
+#include "core/packagedialog.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>
@@ -17,12 +19,16 @@
 #include <QSettings>
 #include <QApplication>
 #include <QHeaderView>
+#include <QDir>
+#include <QStandardPaths>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , m_centralWidget(nullptr)
     , m_settingsWindow(nullptr)
     , m_codeEditor(nullptr)
+    , m_packageManager(nullptr)
+    , m_packageDialog(nullptr)
     , m_fileTree(nullptr)
     , m_fileSystemModel(nullptr)
     , m_terminalPanel(nullptr)
@@ -40,6 +46,7 @@ MainWindow::MainWindow(QWidget *parent)
     
     m_projectCreator = new ProjectCreator(this);
     setupProjectTemplates();
+    setupPackageManager();
     setupMenuBar();
     setupUI();
     
@@ -189,6 +196,17 @@ void MainWindow::setupMenuBar()
     m_settingsAction = new QAction(tr("&Settings..."), this);
     connect(m_settingsAction, &QAction::triggered, this, &MainWindow::showSettings);
     m_settingsMenu->addAction(m_settingsAction);
+    
+    m_settingsMenu->addSeparator();
+    
+    // Package management actions
+    m_installPackageAction = new QAction(tr("&Install Package..."), this);
+    connect(m_installPackageAction, &QAction::triggered, this, &MainWindow::showPackageManager);
+    m_settingsMenu->addAction(m_installPackageAction);
+    
+    m_uninstallPackageAction = new QAction(tr("&Uninstall Package..."), this);
+    connect(m_uninstallPackageAction, &QAction::triggered, this, &MainWindow::showPackageManager);
+    m_settingsMenu->addAction(m_uninstallPackageAction);
     
     m_settingsMenu->addSeparator();
     
@@ -571,6 +589,29 @@ void MainWindow::showSettings()
     
     // Apply editor settings after dialog is closed
     applyEditorSettings();
+}
+
+void MainWindow::setupPackageManager()
+{
+    // Определяем директорию для пакетов
+    QString packagesDir = QDir::home().absoluteFilePath(".codeeditor/packages");
+    
+    // Создаем и инициализируем менеджер пакетов
+    m_packageManager = new PackageManager(this);
+    if (!m_packageManager->initialize(packagesDir)) {
+        qWarning() << "Failed to initialize package manager";
+    }
+    
+    m_packageDialog = nullptr; // Будет создан по запросу
+}
+
+void MainWindow::showPackageManager()
+{
+    if (!m_packageDialog) {
+        m_packageDialog = new PackageDialog(m_packageManager, this);
+    }
+    
+    m_packageDialog->exec();
 }
 
 void MainWindow::applyEditorSettings()
